@@ -1,0 +1,295 @@
+//LINQ(Language Integrated Query)
+//C# 3.0 .Net 3.5
+
+//Data != Object
+
+//LINQ için gelen yenilikler...
+//1-var
+//2-auto property
+//3-object initializer
+//4-collection initializer
+//5-Anonymous Type
+//6-Extension methods
+//7-Expression Tree
+//8-Lambda Expression
+
+//var: Gecici olarak tanımlanan, degiskene ilk deger geldiginde asıl tip olusur...
+//*** Tip bir kez olustugunda sonradan değiştirilemez...
+//*** Gercekte var diye bir tip yok...
+var d1 = "Merhaba";
+var d2 = 12;
+var d3 = 'A';
+var d4 = 55.90;
+var d5 = 43L;
+var d6 = 12.99F;
+var d7 = 33.50M;
+var d8 = new Object();
+
+//d1 = 12;
+
+//C# 4.0 => dynamic
+dynamic d10 = "Merhaba";
+d10 = 123;
+d10 = 'a';
+d10 = true;
+
+//object d11 = 12;
+//int sayi = d11;
+
+dynamic d12 = 12;
+int sayi2 = d12;
+
+//------------------------------------------------------------------------------------------------------------------------
+
+internal class Personel
+    {
+        public int PerID { get; set; }
+        public string Ad { get; set; }
+        public string Soyad { get; set; }
+    }
+
+//2-Auto Property
+//3-Object Init.
+
+using LINQ_II;
+
+Personel personel = new Personel { PerID=1, Ad="Cevdet",  Soyad="Dursun" };
+
+//4-Collection Init.
+
+List<Personel> personeller = new List<Personel>() {
+ new Personel { PerID=1, Ad="", Soyad=""},
+ new Personel { PerID=2, Ad="", Soyad=""},
+ new Personel { PerID=3, Ad="", Soyad=""},
+ new Personel { PerID=4, Ad="", Soyad=""}
+};
+
+//------------------------------------------------------------------------------------------------------------------------
+
+//5-Anonymous Object(Type)
+
+//NSA bir sınıf olusturmak icin onceden class tanımlaması yapmak gerekir...
+// Anonim Tipler de ise boyle bir tanımlamaya gerek yoktur, dogrudan nesnenin ozellikleri {} içerisinde tanımlanır...
+
+var musteri = new { ID = 1, Ad = "Dursun", Soyad = "Durak" };
+dynamic urun = new { ID = 11, Ad = "sdd" };
+
+Console.WriteLine(urun.ID);
+
+//------------------------------------------------------------------------------------------------------------------------
+
+internal static class Genisletme
+    {
+        //Extension metod olusturma kuralları...
+        //1-static sınıf olusturulmalı...
+        //2-yazılacak metod da static olmalı...
+        //3-metodun ilk parametresinde this  keyword!u ile hangi yapıya metod eklenecekse o belirtilir... Eğer metodun başka parametresi varsa bu ifaden sonra yazılmalıdır...
+        //Ozel Durum: metodun ilk parametresi metod parametre listesinde gozukmez...
+
+        public static int KareAl(this int sayi)
+        {
+            return sayi * sayi;
+        }
+
+        public static int KupAl(this int sayi)
+        {
+            return sayi * sayi*sayi;
+        }
+
+        public static int IkiyeBol(this int sayi)
+        {
+            return sayi /2;
+        }
+
+        public static int IstenilenSayiyaBol(this int sayi,int bolum)
+        {
+            return sayi / bolum;
+           
+        }
+    }
+
+using LINQ_IV;
+using System.Linq;
+
+//6-Extension Methods
+//Onceden tanımlanmıs herhangi bir yapıya(class,struct,interface..) daha sonra ilave metodlar eklemek için kullanılır(source code tarafında değil...)
+
+
+int sayi = 12;
+Console.WriteLine(sayi.KareAl());
+
+Console.WriteLine(sayi.IstenilenSayiyaBol(3));
+
+string[] isimler = { "Ali", "Veli", "Selami" };
+List<string> list = new List<string>();
+
+List<int> sayilar = new List<int>() { 34, 5, 1, 656, 777 };
+
+//7-Expression Tree(Ifade agaci...)
+Console.WriteLine( sayi.IstenilenSayiyaBol(6).KareAl().KupAl().IkiyeBol());
+
+Console.WriteLine("----------");
+//8-Lambda Expression...
+foreach (int s in sayilar)
+{ 
+     if(s %2==1)
+        Console.WriteLine(s);
+}
+ 
+ foreach(int s in sayilar.FindAll(x=> x %2==1))
+    Console.WriteLine(s);
+
+ // () => {}
+ // (x,y) => {}
+ // x=>x (metoda x gider x çıkar)
+
+//------------------------------------------------------------------------------------------------------------------------ 
+
+//LINQ to Object
+
+
+
+internal class Kategori
+    {
+        public int KategoriID { get; set; }
+        public string KategoriAdi { get; set; }
+    }
+
+internal class Urun
+    {
+        public int UrunID { get; set; }
+        public string UrunAdi { get; set; }
+        public int KategoriID { get; set; }
+        public double Fiyat { get; set; }
+    }
+
+internal static class UrunMng
+    {
+        public static List<Kategori> Kategoriler { get; set; } = new List<Kategori> { 
+           new Kategori{ KategoriID=1, KategoriAdi="Kırtasiye" },
+           new Kategori{ KategoriID=2, KategoriAdi="Hediyelik" },
+           new Kategori{ KategoriID=3, KategoriAdi="Spor" }
+        };
+
+        public static List<Urun> Urunler { get; set; } = new List<Urun> { 
+         new Urun{ UrunID=101, UrunAdi="Defter", Fiyat=45, KategoriID=1 },
+         new Urun{ UrunID=102, UrunAdi="Kalem", Fiyat=25, KategoriID=1 },
+         new Urun{ UrunID=104, UrunAdi="Anahtarlik", Fiyat=25, KategoriID=2 },
+         new Urun{ UrunID=106, UrunAdi="Vazo", Fiyat=115, KategoriID=2 },
+         new Urun{ UrunID=107, UrunAdi="Futbol Topu", Fiyat=255, KategoriID=3 },
+         new Urun{ UrunID=108, UrunAdi="Forma", Fiyat=850, KategoriID=3 },
+         new Urun{ UrunID=109, UrunAdi="Eldiven", Fiyat=125, KategoriID=3 }
+        };
+    }
+
+DİKKAT FORM UYGULAMASI bkz.foto
+
+public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = UrunMng.Kategoriler;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = UrunMng.Urunler;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //LINQ Sorguları iki şekilde yazılır..
+            //1- SQL gibi
+            //2-Expression Tree
+
+            //Tum urunler...
+            //var result = from u in UrunMng.Urunler
+            //             select u;
+
+            //var result = UrunMng.Urunler.Select(x => x);
+
+            //id'is 102 olan urun
+            //var result = from u in UrunMng.Urunler
+            //             where u.UrunID == 102
+            //             select u;
+
+            //var result = UrunMng.Urunler.Where(x => x.UrunID == 102);
+
+            //Ozel Durum
+            //LINQ sorguları Deffered Model'e gore calisir...
+            //Sorgu tanımlandığı yerde değil calistigi yerde derlenir...
+
+            //int id = 102;
+
+            // var result = (from u in UrunMng.Urunler
+            //               where u.UrunID == id
+            //               select u).ToList();
+            //id = 109;
+
+            //dataGridView1.DataSource = result;
+
+            //Fiyata gore artan sırala...
+            //var result = from u in UrunMng.Urunler
+            //             orderby u.Fiyat
+            //             select u;
+
+            //Fiyata gore azalan sırala...
+            //var result = from u in UrunMng.Urunler
+            //             orderby u.Fiyat descending
+            //             select u;
+
+            var result = UrunMng.Urunler.OrderByDescending(x => x.Fiyat);
+            dataGridView1.DataSource = result.ToList();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            //Kategori Urun JOIN...
+
+            //var result = from u in UrunMng.Urunler
+            //             join k in UrunMng.Kategoriler
+            //             on u.KategoriID equals k.KategoriID
+            //             select new { u.UrunID, u.UrunAdi, k.KategoriAdi };
+
+            var result = UrunMng.Urunler.Join(UrunMng.Kategoriler, u => u.KategoriID, k => k.KategoriID, (u, k) => new { u.UrunID, u.UrunAdi, u.Fiyat, k.KategoriAdi });
+
+            dataGridView1.DataSource = result.ToList();
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int katID = int.Parse(txtKatID.Text);
+
+            dataGridView1.DataSource = UrunMng.Urunler.Where(x => x.KategoriID == katID).ToList();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            listBox1.DataSource = UrunMng.Kategoriler;
+            listBox1.DisplayMember = "KategoriAdi";
+            listBox1.ValueMember = "KategoriID";
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int? id = listBox1.SelectedValue as int?;
+
+
+            if (id!=null)
+            {
+                int katID = (int)listBox1.SelectedValue;
+                dataGridView1.DataSource = UrunMng.Urunler.Where(x => x.KategoriID == katID).ToList();
+            }
+        }
+    }
+
+
+
+//------------------------------------------------------------------------------------------------------------------------ 
