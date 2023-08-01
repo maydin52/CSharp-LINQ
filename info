@@ -1,6 +1,9 @@
 //LINQ(Language Integrated Query)
 //C# 3.0 .Net 3.5
-//3 çeşittir.
+//3 yöntemle gelmiştir. 
+//LINQ to Object
+//LINQ to SQL
+//LINQ to XML
 
 //Data != Object
 //Data : verinin saklandığı yer, tablo mantığı. Object : Veriyi kullandığım ortam OOP. Objeyi tabloya çevirmemiz gerekiyor.
