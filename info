@@ -65,6 +65,8 @@ int sayi2 = d12;
 
 //------------------------------------------------------------------------------------------------------------------------
 
+//2-Auto Property
+
 internal class Personel
     {
         public int PerID { get; set; }
@@ -72,12 +74,26 @@ internal class Personel
         public string Soyad { get; set; }
     }
 
-//2-Auto Property
+
+Avantajı : herbirisine ayrı ayrı değişken tanımlayıp get ve set metotlarını yazmaktan kurtulduk.
+Sistem backing field leri kendisi oluşturyor.
+
+
+
 //3-Object Init.
 
-using LINQ_II;
+// Constructor yazmamış olsakta aşağıdaki şekilde kullanabiliyoruz.
+
+internal class Personel
+    {
+        public int PerID { get; set; }
+        public string Ad { get; set; }
+        public string Soyad { get; set; }
+    }
 
 Personel personel = new Personel { PerID=1, Ad="Cevdet",  Soyad="Dursun" };
+
+
 
 //4-Collection Init.
 
@@ -88,11 +104,12 @@ List<Personel> personeller = new List<Personel>() {
  new Personel { PerID=4, Ad="", Soyad=""}
 };
 
+
 //------------------------------------------------------------------------------------------------------------------------
 
 //5-Anonymous Object(Type)
 
-//NSA bir sınıf olusturmak icin onceden class tanımlaması yapmak gerekir...
+// NSA bir sınıf olusturmak icin onceden class tanımlaması yapmak gerekir...
 // Anonim Tipler de ise boyle bir tanımlamaya gerek yoktur, dogrudan nesnenin ozellikleri {} içerisinde tanımlanır...
 
 var musteri = new { ID = 1, Ad = "Dursun", Soyad = "Durak" };
