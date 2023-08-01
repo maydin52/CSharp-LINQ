@@ -98,6 +98,25 @@ Personel personel = new Personel { PerID=1, Ad="Cevdet",  Soyad="Dursun" };
 
 
 
+
+
+
+
+// -Property Init.
+
+public static List<Kategori> Kategoriler { get; set; } = new List<Kategori> { 
+           new Kategori{ KategoriID=1, KategoriAdi="Kırtasiye" },
+           new Kategori{ KategoriID=2, KategoriAdi="Hediyelik" },
+           new Kategori{ KategoriID=3, KategoriAdi="Spor" }
+        };
+
+// Dikkat : en sonda ; konuluyor. Normalde prop sonrasında yoktu.
+
+
+
+
+
+
 //4-Collection Init.
 
 List<Personel> personeller = new List<Personel>() {
@@ -106,6 +125,8 @@ List<Personel> personeller = new List<Personel>() {
  new Personel { PerID=3, Ad="", Soyad=""},
  new Personel { PerID=4, Ad="", Soyad=""}
 };
+
+// Dikkat : ilk satırın sonundaki parantezler optional dır. Yazılmasa da olur.
 
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -259,13 +280,18 @@ foreach (int s in sayilar)
 
 //LINQ to Object
 
-
+// Sorgulama yapabilmemiz için bir koleksiyona ihtiyacımız var.
 
 internal class Kategori
     {
         public int KategoriID { get; set; }
         public string KategoriAdi { get; set; }
     }
+
+// DİKKAT : aşağıdaki Urun class ı içerisine KategoriID prop ekledik. 
+// Şimdi bunu manuel ekliyoruz. 
+// Entity Frameworkte bu durum navigation prop ile otomatik oluyor.
+
 
 internal class Urun
     {
@@ -319,22 +345,41 @@ public partial class Form1 : Form
             //1- SQL gibi
             //2-Expression Tree
 
+            //1. yöntemde 15-20 tane metot var yani sınırlı. Önemli olan 2. yöntemle yazmak veya hibrit kullanabilmek.
+
             //Tum urunler...
+            //1. Yöntem
             //var result = from u in UrunMng.Urunler
             //             select u;
+            //dataGridView1.DataSource = result.ToList();
 
-            //var result = UrunMng.Urunler.Select(x => x);
+            
+            //2. Yöntem
+            //var result = UrunMng.Urunler.Select(x => x);     //x e ait herşeyi getir. Urun geldi Urun çıktı.
+            //dataGridView1.DataSource = result.ToList();
+
+            // Dikkat : //var result = UrunMng.Urunler.Select(x => new {x.UrunID}); olursa sadece UrunID kolonunun tümü döner. (sınıf olmadığı için new kullandık.)
+
+
+
 
             //id'is 102 olan urun
+            //1. Yöntem
             //var result = from u in UrunMng.Urunler
             //             where u.UrunID == 102
             //             select u;
+            //dataGridView1.DataSource = result.ToList();
 
+
+            //2. Yöntem
             //var result = UrunMng.Urunler.Where(x => x.UrunID == 102);
+            //dataGridView1.DataSource = result.ToList();
+
 
             //Ozel Durum
-            //LINQ sorguları Deffered Model'e gore calisir...
+            //LINQ sorguları Deffered Model'e gore calisir... Gecikmeli Model.
             //Sorgu tanımlandığı yerde değil calistigi yerde derlenir...
+
 
             //int id = 102;
 
@@ -342,19 +387,46 @@ public partial class Form1 : Form
             //               where u.UrunID == id
             //               select u).ToList();
             //id = 109;
+            //dataGridView1.DataSource = result.ToList();    // Buradaki to list inmediate mode diye geçer. to list, to array vs.
 
+            // Dikkat!!! Sonuç 109 un satırı geldi. result.ToList() i gördüğü yerde çalışır.
+            // Mülakatta elek sorusu olarak çıkabilir.
+
+
+            // Sonucun 102 olmasını istiyorsak;
+
+            //int id = 102;
+
+            // var result = (from u in UrunMng.Urunler
+            //               where u.UrunID == id
+            //               select u).ToList();
+            //id = 109;
             //dataGridView1.DataSource = result;
 
+
             //Fiyata gore artan sırala...
+            //1. Yöntem
             //var result = from u in UrunMng.Urunler
             //             orderby u.Fiyat
             //             select u;
+            //dataGridView1.DataSource = result.ToList();
+
+
+            //2. Yöntem ???? A
+            var result = UrunMng.Urunler.OrderByAscending(x => x.Fiyat);
+            dataGridView1.DataSource = result.ToList();
+
+
 
             //Fiyata gore azalan sırala...
+            //1. Yöntem
             //var result = from u in UrunMng.Urunler
             //             orderby u.Fiyat descending
             //             select u;
+            //dataGridView1.DataSource = result.ToList();
 
+
+            //2. Yöntem
             var result = UrunMng.Urunler.OrderByDescending(x => x.Fiyat);
             dataGridView1.DataSource = result.ToList();
         }
@@ -364,14 +436,32 @@ public partial class Form1 : Form
 
             //Kategori Urun JOIN...
 
+            //1.Yöntem
+            //var result = from u in UrunMng.Urunler
+            //             join k in UrunMng.Kategoriler
+            //             on u.KategoriID equals k.KategoriID
+            //             select u;
+            //dataGridView1.DataSource = result.ToList();
+
+            //Bu şekilde sadece u tablosunun kolonları geldi. 
+            //k dediğimizde sadece k tablosunun kolonları geldi. 
+            //Personel ve bölüm örneği. Anonim tip oluşturmak zorundayız.
+
+            
+
             //var result = from u in UrunMng.Urunler
             //             join k in UrunMng.Kategoriler
             //             on u.KategoriID equals k.KategoriID
             //             select new { u.UrunID, u.UrunAdi, k.KategoriAdi };
+            //dataGridView1.DataSource = result.ToList();
 
-            var result = UrunMng.Urunler.Join(UrunMng.Kategoriler, u => u.KategoriID, k => k.KategoriID, (u, k) => new { u.UrunID, u.UrunAdi, u.Fiyat, k.KategoriAdi });
+            //Entity frameworkte bu bağlama konusu navigation prop ile yapılıyor.
 
-            dataGridView1.DataSource = result.ToList();
+            //2.Yöntem
+            //var result = UrunMng.Urunler.Join(UrunMng.Kategoriler, u => u.KategoriID, k => k.KategoriID, (u, k) => new { u.UrunID, u.UrunAdi, u.Fiyat, k.KategoriAdi });
+            //dataGridView1.DataSource = result.ToList();
+
+            //PK FK mantığı
 
         }
 
@@ -384,19 +474,27 @@ public partial class Form1 : Form
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listBox1.DataSource = UrunMng.Kategoriler;
+            
+            //Form yüklenirken listboxu doldurduk.         
+
+            listBox1.DataSource = UrunMng.Kategoriler;        //Bu şekilde çalıştırınca problem çıktı. üç satırın namespaceleri geldi.
+
             listBox1.DisplayMember = "KategoriAdi";
-            listBox1.ValueMember = "KategoriID";
+            listBox1.ValueMember = "KategoriID";            //Ekleyince düzeldi.
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int? id = listBox1.SelectedValue as int?;
+            // Listboxtan seçilen kategoriye göre datagridview filrelemesi yaptık.            
 
+            int? id = listBox1.SelectedValue as int?;      
+
+            // SelectedValue object dönüyor. int e cast etmeye çalışıyor, cast edemezse null değer oluşuyor. null dan farklıysa if e giriyor.
+            //Özellikle veritabanında veri okurken gelen null değerlerle karşılaştığımızda da benzeri çözüm üretebiliriz.
 
             if (id!=null)
             {
-                int katID = (int)listBox1.SelectedValue;
+                int katID = (int)listBox1.SelectedValue;   // null değeri int e çevirmeye çalıştığı için hata alıyorduk.
                 dataGridView1.DataSource = UrunMng.Urunler.Where(x => x.KategoriID == katID).ToList();
             }
         }
