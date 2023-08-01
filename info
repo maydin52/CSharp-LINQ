@@ -117,6 +117,12 @@ dynamic urun = new { ID = 11, Ad = "sdd" };
 
 Console.WriteLine(urun.ID);
 
+Personellerin olduğu bir sınıftan personel tipi döner.
+Bölümlerin olduğu bir sınıftan bölüm tipi döner.
+Personellerin bölümleri için ???
+
+view model oluşturacağız ilerde ya da sorguda Anonymous tip oluşturacağız.
+
 //------------------------------------------------------------------------------------------------------------------------
 
 internal static class Genisletme
@@ -125,7 +131,17 @@ internal static class Genisletme
         //1-static sınıf olusturulmalı...
         //2-yazılacak metod da static olmalı...
         //3-metodun ilk parametresinde this  keyword!u ile hangi yapıya metod eklenecekse o belirtilir... Eğer metodun başka parametresi varsa bu ifaden sonra yazılmalıdır...
+
+        this birinci kullanım; class ın içinde,
+        this ikinci kullanımı; const arasında veri transferi yapmak için,(aynı sınıfsa this, üst sınıfsa base i kullanıyoruz)
+        this üçüncü kullanım yukarıdaki şekilde,
+
         //Ozel Durum: metodun ilk parametresi metod parametre listesinde gozukmez...
+
+        //Bir sınıf static se member ları da statik olmalıdır. Ram de static bölgesinde tutulurlar.
+        // sayi. yazıldığında açılan listede mor küp sembolü sol altında aşağıya bakan ok var ve metod imzasında (extension) yazar.
+
+        // ismin hiçbir önemi yok. Nereye bağladığım önemli.
 
         public static int KareAl(this int sayi)
         {
@@ -153,36 +169,88 @@ using LINQ_IV;
 using System.Linq;
 
 //6-Extension Methods
-//Onceden tanımlanmıs herhangi bir yapıya(class,struct,interface..) daha sonra ilave metodlar eklemek için kullanılır(source code tarafında değil...)
-
+// Onceden tanımlanmıs herhangi bir yapıya(class,struct,interface..) daha sonra ilave metodlar eklemek için kullanılır(source code tarafında değil...)
+// LINQ nun kalbidir.
+// 
 
 int sayi = 12;
+
+sayi. dedikten sonra gelen listenin içine sonradan metot eklemek istiyoruz. Normal şartlar altında source kodunu değiştirmemiz gerekir.
+Bunu herşeye bağlayabiliriz. (interface, class, struct vs..)
+
 Console.WriteLine(sayi.KareAl());
 
 Console.WriteLine(sayi.IstenilenSayiyaBol(3));
 
+// namespace eklemeyi unutmuyoruz.
+
+// Microsoft Enumerable diye bir class yazmış. Go to definition gittiğimizde; this ile Ienumerable içine ekle diyor.
+// Ienumerable için daha önce; Foreach ; Ienumerable interface ini uygulamış olan metotlarda çalışır demiştik.
+
 string[] isimler = { "Ali", "Veli", "Selami" };
+
+// Örneğin;
+// Bir sınıf yazdı ve sistemin içindeki bütün koleksiyonlara linq desteğini verdi. Tek satır orijinal kodu değiştirmeden bütün sisteme uyguladı.
+// Bütün koleksiyonları Ienumarable interface i üzerinden extesion metodla bağlamış. definitondaki this e dikkat.
+// isimler. yapınca oklu mor küplere dikkat :)
+// Bütün koleksiyonların Ienumerable verilmesi.
+// Yoksa teker teker bütün array, list vs bütün sınıflara yazmak zorundaydı, tek interface e bağladı ve hepsine verdi.
+
 List<string> list = new List<string>();
+
+
+
+
+
+
+
+//7-Expression Tree(Ifade agaci...)
+
+LINQ sorguları iki şekilde yazılabilir;
+1- SQL gibi fakat yerleri değişik bu yazılış şeklinde.
+2- Extension method olarak.
+
+Bizim için en önemli olanı extension method kullanımı.
+İşte bu şekilde extension methodları peşpeşe bağlayarak çalıştırma işlemine Expression Tree deniyor.
+Linq sorguları bu şekilde yazılır.
+Console.WriteLine( sayi.IstenilenSayiyaBol(6).KareAl().KupAl().IkiyeBol());
+
+
+
+
+
+
+//8-Lambda Expression...
+
+MVC nin içerisinde eventler bölümünde anlatılacak.
+Müfredatta ötelenmiş.
+Delegeler konusunun da anlatılması gerekiyormuş.
+2-3 saatlik bir anlatımı varmış.
 
 List<int> sayilar = new List<int>() { 34, 5, 1, 656, 777 };
 
-//7-Expression Tree(Ifade agaci...)
-Console.WriteLine( sayi.IstenilenSayiyaBol(6).KareAl().KupAl().IkiyeBol());
-
-Console.WriteLine("----------");
-//8-Lambda Expression...
 foreach (int s in sayilar)
 { 
-     if(s %2==1)
+     if(s % 2 == 1)
         Console.WriteLine(s);
 }
  
- foreach(int s in sayilar.FindAll(x=> x %2==1))
+ foreach(int s in sayilar.FindAll(x => x %2 == 1))
     Console.WriteLine(s);
+
+// Find bir tane getirir, dikkat.
+
+// => ero operatörü (ismini tekrar sor doğru mu yazdım?)
+
+// fonksiyona giden parametreyi temsil ediyor.
 
  // () => {}
  // (x,y) => {}
- // x=>x (metoda x gider x çıkar)
+ // x=>x (metoda x gider x çıkar) Birinci x parametre, ikinci x return - Lambda Expression - onlarca kullanım şekli var.
+
+// Önemli konu. Çok kullanacağız. Herşeyi bu şekilde yazabiliyoruz.
+
+
 
 //------------------------------------------------------------------------------------------------------------------------ 
 
