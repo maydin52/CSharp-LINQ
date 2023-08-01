@@ -1,7 +1,19 @@
 //LINQ(Language Integrated Query)
 //C# 3.0 .Net 3.5
+//3 çeşittir.
 
 //Data != Object
+//Data : verinin saklandığı yer, tablo mantığı. Object : Veriyi kullandığım ortam OOP. Objeyi tabloya çevirmemiz gerekiyor.
+//Biz güncel durumda hangi dillerde yazılım yazbiliriz? c# Python java vs
+//Bunların ortak özellikleri ne? OOP olması
+//Bu üretilen veri nerede saklanacak? RDBS sql server, oracle vs.
+//Bu saklanan yerlerin ortak özellikleri ne? İlişkisel olması.
+//Problem şu ki bunların ikisi arasında eşitsizlik var.
+//Bu sorunun ortaya çıkardığı bütün problemler ne zaman OOP veritabanlarına geçilirse o zaman çözülür. Dünyada bazı örnekleri var. Yaygın değil.
+
+//Verileri onje haline getirme işleminde yardımcı oluyor.
+//Hemde bu obje haline getirilmiş veriler üzerinde sql sorguları gibi sorgular yazmamızı sağlıyor.
+
 
 //LINQ için gelen yenilikler...
 //1-var
@@ -14,8 +26,11 @@
 //8-Lambda Expression
 
 //var: Gecici olarak tanımlanan, degiskene ilk deger geldiginde asıl tip olusur...
+
 //*** Tip bir kez olustugunda sonradan değiştirilemez...
-//*** Gercekte var diye bir tip yok...
+
+//*** Gercekte var diye bir tip yok... Buraya bir değer gelecek ama şuanda bunu bilmiyorum.
+
 var d1 = "Merhaba";
 var d2 = 12;
 var d3 = 'A';
@@ -36,8 +51,17 @@ d10 = true;
 //object d11 = 12;
 //int sayi = d11;
 
+// objeden inn tip dönüşümü yapılması gerekiyor.
+
 dynamic d12 = 12;
 int sayi2 = d12;
+
+// dynamic te tip dönüşümü yapmanıza gerek kalmıyor. Dönüşüm otomatik yapılıyor. yukarıdakiyle arasındaki fark bu.
+
+// o zaman biz int yerine dynamic yazalım geçelim olmaz. stack daha hızlı çalışır. performanslı değil. MVC viewbag nesnesi tipi dynamic orada karşımıza çıkacak. 
+// Sorguyu yazma anında ne döneceğini bilmiyoruz. Sorgu sonucu belli olacağından var.
+
+// C# tip bakımından strongled language type olduğundan dili esnetmek için var ve dynamic getirilmiştir.
 
 //------------------------------------------------------------------------------------------------------------------------
 
