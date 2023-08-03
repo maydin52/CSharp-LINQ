@@ -1,4 +1,5 @@
 //LINQ(Language Integrated Query)
+
 //C# 3.0 .Net 3.5
 //3 yöntemle gelmiştir. 
 //LINQ to Object
@@ -17,8 +18,10 @@
 //Verileri onje haline getirme işleminde yardımcı oluyor.
 //Hemde bu obje haline getirilmiş veriler üzerinde sql sorguları gibi sorgular yazmamızı sağlıyor.
 
+//------------------------------------------------------------------------------------------------------------------------
 
 //LINQ için gelen yenilikler...
+
 //1-var
 //2-auto property
 //3-object initializer
@@ -27,6 +30,10 @@
 //6-Extension methods
 //7-Expression Tree
 //8-Lambda Expression
+
+//------------------------------------------------------------------------------------------------------------------------
+
+//1-var
 
 //var: Gecici olarak tanımlanan, degiskene ilk deger geldiginde asıl tip olusur...
 
@@ -81,7 +88,7 @@ internal class Personel
 Avantajı : herbirisine ayrı ayrı değişken tanımlayıp get ve set metotlarını yazmaktan kurtulduk.
 Sistem backing field leri kendisi oluşturyor.
 
-
+//------------------------------------------------------------------------------------------------------------------------
 
 //3-Object Init.
 
@@ -96,13 +103,10 @@ internal class Personel
 
 Personel personel = new Personel { PerID=1, Ad="Cevdet",  Soyad="Dursun" };
 
-
-
-
-
-
+//------------------------------------------------------------------------------------------------------------------------
 
 // -Property Init.
+//Sıralamada yoktu ama sonradan hoca derste söyledi.
 
 public static List<Kategori> Kategoriler { get; set; } = new List<Kategori> { 
            new Kategori{ KategoriID=1, KategoriAdi="Kırtasiye" },
@@ -112,10 +116,7 @@ public static List<Kategori> Kategoriler { get; set; } = new List<Kategori> {
 
 // Dikkat : en sonda ; konuluyor. Normalde prop sonrasında yoktu.
 
-
-
-
-
+//------------------------------------------------------------------------------------------------------------------------
 
 //4-Collection Init.
 
@@ -127,7 +128,6 @@ List<Personel> personeller = new List<Personel>() {
 };
 
 // Dikkat : ilk satırın sonundaki parantezler optional dır. Yazılmasa da olur.
-
 
 //------------------------------------------------------------------------------------------------------------------------
 
@@ -148,6 +148,11 @@ Personellerin bölümleri için ???
 view model oluşturacağız ilerde ya da sorguda Anonymous tip oluşturacağız.
 
 //------------------------------------------------------------------------------------------------------------------------
+
+//6-Extension Methods
+// Onceden tanımlanmıs herhangi bir yapıya(class,struct,interface..) daha sonra ilave metodlar eklemek için kullanılır(source code tarafında değil...)
+// LINQ nun kalbidir.
+// 
 
 internal static class Genisletme
     {
@@ -189,13 +194,7 @@ internal static class Genisletme
         }
     }
 
-using LINQ_IV;
-using System.Linq;
-
-//6-Extension Methods
-// Onceden tanımlanmıs herhangi bir yapıya(class,struct,interface..) daha sonra ilave metodlar eklemek için kullanılır(source code tarafında değil...)
-// LINQ nun kalbidir.
-// 
+//---------------
 
 int sayi = 12;
 
@@ -222,11 +221,7 @@ string[] isimler = { "Ali", "Veli", "Selami" };
 
 List<string> list = new List<string>();
 
-
-
-
-
-
+//------------------------------------------------------------------------------------------------------------------------
 
 //7-Expression Tree(Ifade agaci...)
 
@@ -239,10 +234,7 @@ Bizim için en önemli olanı extension method kullanımı.
 Linq sorguları bu şekilde yazılır.
 Console.WriteLine( sayi.IstenilenSayiyaBol(6).KareAl().KupAl().IkiyeBol());
 
-
-
-
-
+//------------------------------------------------------------------------------------------------------------------------
 
 //8-Lambda Expression...
 
@@ -273,8 +265,6 @@ foreach (int s in sayilar)
  // x=>x (metoda x gider x çıkar) Birinci x parametre, ikinci x return - Lambda Expression - onlarca kullanım şekli var.
 
 // Önemli konu. Çok kullanacağız. Herşeyi bu şekilde yazabiliyoruz.
-
-
 
 //------------------------------------------------------------------------------------------------------------------------ 
 
